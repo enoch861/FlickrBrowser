@@ -2,7 +2,6 @@ package com.example.enoch.flickrbrowser;
 
 import android.drm.ProcessedData;
 import android.os.Bundle;
-
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = "MainActivity";
     private List<Photo> mPhotosList = new ArrayList<Photo>();
@@ -36,17 +35,17 @@ public class MainActivity extends AppCompatActivity  {
             super(searchCriteria, matchAll);
         }
 
-        public void execute(){
+        public void execute() {
             super.execute();
             ProcessData processData = new ProcessData();
             processData.execute();
         }
 
         public class ProcessData extends DownloadJsonData {
-            protected void onPostExecute(String webData){
-            super.onPostExecute(webData);
-            flickrRecyclerViewAdapter = new FlickrRecyclerViewAdapter(MainActivity.this, getMPhotos());
-            mRecyclerView.setAdapter(flickrRecyclerViewAdapter);
+            protected void onPostExecute(String webData) {
+                super.onPostExecute(webData);
+                flickrRecyclerViewAdapter = new FlickrRecyclerViewAdapter(MainActivity.this, getMPhotos());
+                mRecyclerView.setAdapter(flickrRecyclerViewAdapter);
             }
         }
     }

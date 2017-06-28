@@ -20,7 +20,7 @@ public class GetFlickrJsonData extends GetRawData {
     private List<Photo> mPhotos;
     private Uri mDestinationURi;
 
-    public GetFlickrJsonData(String searchCriteria, boolean matchAll){
+    public GetFlickrJsonData(String searchCriteria, boolean matchAll) {
         super(null);
         createAndUpdateUri(searchCriteria, matchAll);
         mPhotos = new ArrayList<Photo>();
@@ -33,7 +33,7 @@ public class GetFlickrJsonData extends GetRawData {
         downloadJsonData.execute(mDestinationURi.toString());
     }
 
-    public boolean createAndUpdateUri(String searchCriteria, boolean matchAll){
+    public boolean createAndUpdateUri(String searchCriteria, boolean matchAll) {
         final String FLICKR_API_BASE_URL = "https://api.flickr.com/services/feeds/photos_public.gne";
         final String TAGS_PARAM = "tags";
         final String TAGMODE_PARAM = "tagmode";
@@ -41,8 +41,8 @@ public class GetFlickrJsonData extends GetRawData {
         final String NO_JSON_CALLBACK_PARAM = "nojsoncallback";
 
         mDestinationURi = Uri.parse(FLICKR_API_BASE_URL).buildUpon()
-                .appendQueryParameter(TAGMODE_PARAM,searchCriteria)
-                .appendQueryParameter(TAGMODE_PARAM,matchAll ? "ALL" : "ANY")
+                .appendQueryParameter(TAGMODE_PARAM, searchCriteria)
+                .appendQueryParameter(TAGMODE_PARAM, matchAll ? "ALL" : "ANY")
                 .appendQueryParameter(FORMAT_PARAM, "json")
                 .appendQueryParameter(NO_JSON_CALLBACK_PARAM, "1")
                 .build();
@@ -72,7 +72,7 @@ public class GetFlickrJsonData extends GetRawData {
         try {
             JSONObject jsonData = new JSONObject(getmData());
             JSONArray itemsArray = jsonData.getJSONArray(FLICKR_ITEMS);
-            for(int i=0; i<itemsArray.length(); i++) {
+            for (int i = 0; i < itemsArray.length(); i++) {
                 JSONObject jsonPhoto = itemsArray.getJSONObject(i);
                 String title = jsonPhoto.getString(FLICKR_TITLE);
                 String author = jsonPhoto.getString(FLICKR_AUTHOR);
@@ -87,11 +87,11 @@ public class GetFlickrJsonData extends GetRawData {
                 this.mPhotos.add(photoObject);
             }
 
-            for (Photo singlePhoto: mPhotos) {
+            for (Photo singlePhoto : mPhotos) {
                 Log.v(LOG_TAG, singlePhoto.toString());
             }
 
-        }catch (JSONException jsone) {
+        } catch (JSONException jsone) {
             jsone.printStackTrace();
             Log.e(LOG_TAG, "Error processing Json data");
         }
@@ -102,6 +102,7 @@ public class GetFlickrJsonData extends GetRawData {
             super.onPostExecute(webData);
             processResult();
         }
+
         protected String doInBackground(String... params) {
             String[] par = {mDestinationURi.toString()};
             return super.doInBackground(par);

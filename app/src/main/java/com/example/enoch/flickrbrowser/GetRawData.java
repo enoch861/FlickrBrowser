@@ -15,7 +15,9 @@ import java.net.URL;
  */
 
 
-enum DownloadStatus {IDLE, PROCESSING, NOT_INITIALIZED, FAILED_OR_EMPTY, OK}
+enum DownloadStatus {
+    IDLE, PROCESSING, NOT_INITIALIZED, FAILED_OR_EMPTY, OK
+}
 
 public class GetRawData {
     private String LOG_TAG = GetRawData.class.getSimpleName();
@@ -28,7 +30,7 @@ public class GetRawData {
         this.mDownloadStatus = DownloadStatus.IDLE;
     }
 
-    public void reset(){
+    public void reset() {
         this.mDownloadStatus = DownloadStatus.IDLE;
         this.mData = null;
         this.mRawUrl = null;
@@ -46,7 +48,7 @@ public class GetRawData {
         this.mRawUrl = mRawUrl;
     }
 
-    public void execute(){
+    public void execute() {
         this.mDownloadStatus = DownloadStatus.PROCESSING;
         DownloadRawData downloadRawData = new DownloadRawData();
         downloadRawData.execute(mRawUrl);
@@ -56,25 +58,26 @@ public class GetRawData {
     public class DownloadRawData extends AsyncTask<String, Void, String> {
         protected void onPostExecute(String webData) {
             mData = webData;
-            Log.v(LOG_TAG, "Data returned was: " +mData);
-            if (mData == null){
-                if (mRawUrl == null){
+            Log.v(LOG_TAG, "Data returned was: " + mData);
+            if (mData == null) {
+                if (mRawUrl == null) {
                     mDownloadStatus = DownloadStatus.NOT_INITIALIZED;
-                }else {
+                } else {
                     mDownloadStatus = DownloadStatus.FAILED_OR_EMPTY;
                 }
-            }else {
+            } else {
                 mDownloadStatus = DownloadStatus.OK;
             }
         }
-        protected String doInBackground(String... params){
+
+        protected String doInBackground(String... params) {
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
 
-            if(params == null)
+            if (params == null)
                 return null;
 
-            try{
+            try {
                 URL url = new URL(params[0]);
 
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -82,7 +85,7 @@ public class GetRawData {
                 urlConnection.connect();
 
                 InputStream inputStream = urlConnection.getInputStream();
-                if(inputStream == null) {
+                if (inputStream == null) {
                     return null;
                 }
 
@@ -91,24 +94,24 @@ public class GetRawData {
                 reader = new BufferedReader(new InputStreamReader(inputStream));
 
                 String line;
-                while((line = reader.readLine()) != null){
+                while ((line = reader.readLine()) != null) {
                     buffer.append(line + "\n");
                 }
 
                 return buffer.toString();
 
-            }catch(IOException e){
+            } catch (IOException e) {
                 Log.e(LOG_TAG, "Error", e);
                 return null;
 
-            }finally {
-                if (urlConnection != null){
+            } finally {
+                if (urlConnection != null) {
                     urlConnection.disconnect();
                 }
-                if (reader != null){
-                    try{
+                if (reader != null) {
+                    try {
                         reader.close();
-                    }catch (final IOException e){
+                    } catch (final IOException e) {
                         Log.e(LOG_TAG, "Error closing stream", e);
                     }
                 }
