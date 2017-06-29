@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-
+import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,4 +52,3 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
-
