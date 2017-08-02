@@ -1,10 +1,14 @@
 package com.example.enoch.flickrbrowser;
 
+import java.io.Serializable;
+
 /**
  * Created by Enoch on 2/7/2017.
  */
 
-public class Photo {
+public class Photo implements Serializable {
+    private static final long serialVersionID= 1L;
+
     private String mTitle;
     private String mAuthor;
     private String mAuthorID;
@@ -20,6 +24,10 @@ public class Photo {
         this.mLink = mLink;
         this.mTags = mTags;
         this.mImage = mImage;
+    }
+
+    public static long getSerialVersionID() {
+        return serialVersionID;
     }
 
     public String getmTitle() {
